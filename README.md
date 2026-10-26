@@ -1,6 +1,17 @@
-# Finger Lakes Soaring Club — modern site prototype
+# Finger Lakes Soaring Club — modern public site
 
-A responsive, accessible replacement prototype for the public FLSC website. The source site at `flsc.org` is treated as read-only. This project preserves the club's public content and routes authenticated member operations back to the current production member system until a controlled migration is approved.
+A responsive, accessible replacement for the public FLSC website. The source site at `flsc.org` is treated as read-only. This project preserves the club's public content and routes authenticated member operations back to the current production member system until a controlled migration is approved.
+
+## Production
+
+- Host: Cloudflare Pages
+- Project: `flsc-org`
+- Production branch: `main`
+- Build command: none
+- Output directory: `dist`
+- Custom domain: `https://flsc.keenehammond.com`
+
+Every push to `main` triggers a Cloudflare Pages deployment.
 
 ## Local preview
 
