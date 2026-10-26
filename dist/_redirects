@@ -1,0 +1,13 @@
+/AboutUs.php /about.html 301
+/gliders.html /fleet.html 301
+/Gliders.php /fleet.html 301
+/MembershipJoinUs.php /membership.html 301
+/privacy.php /privacy.html 301
+/terms.php /terms.html 301
+/WebCam.php /dashboard.html#media 302
+/videoLib.php /dashboard.html#media 302
+/wordpress/our-gliders/ /fleet.html 301
+/wordpress/our-gliders/* /fleet.html 301
+/wordpress/glider-rides/ /rides.html 301
+/wordpress/membership/ /membership.html 301
+/wordpress/contact/ /contact.html 301
