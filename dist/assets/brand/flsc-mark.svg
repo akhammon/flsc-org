@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Finger Lakes Soaring Club</title>
+  <desc id="desc">A sailplane crossing blue and red rising-air paths</desc>
+  <rect width="128" height="128" rx="32" fill="#0a111b"/>
+  <path d="M18 42C39 22 78 19 108 37" fill="none" stroke="#8fd4fb" stroke-width="11" stroke-linecap="round"/>
+  <path d="M110 87C86 106 45 109 18 91" fill="none" stroke="#e5483d" stroke-width="11" stroke-linecap="round"/>
+  <path d="M64 19l7 36 42 14v8l-43-7-3 38h-6l-3-38-43 7v-8l42-14 7-36z" fill="#fff"/>
+  <circle cx="64" cy="62" r="4" fill="#0a111b"/>
+</svg>

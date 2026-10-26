@@ -4,6 +4,22 @@
   const enhancedStyles = document.createElement('link');
   enhancedStyles.rel = 'stylesheet'; enhancedStyles.href = 'enhancements.css';
   document.head.append(enhancedStyles);
+  const brandAsset = 'assets/brand/flsc-mark.svg';
+  document.querySelectorAll('.brand-mark').forEach(mark => {
+    mark.replaceChildren(Object.assign(document.createElement('img'), { src: brandAsset, alt: '' }));
+    mark.setAttribute('aria-hidden', 'true');
+  });
+  [
+    ['icon', brandAsset, 'image/svg+xml'],
+    ['icon', 'favicon.ico', 'image/x-icon'],
+    ['apple-touch-icon', 'apple-touch-icon.png', 'image/png'],
+    ['manifest', 'site.webmanifest', 'application/manifest+json']
+  ].forEach(([rel, href, type]) => {
+    if (document.head.querySelector(`link[rel="${rel}"][href="${href}"]`)) return;
+    const link = document.createElement('link');
+    link.rel = rel; link.href = href; link.type = type;
+    document.head.append(link);
+  });
   const groups = [
     ['Explore', [['Home','index.html'],['Glider rides','rides.html'],['Learn to soar','learn.html'],['Fleet','fleet.html'],['Gallery','gallery.html'],['Visit & contact','contact.html']]],
     ['Club', [['Membership','membership.html'],['People','people.html'],['Club story','about.html'],['FAQs','faqs.html']]],
@@ -58,7 +74,7 @@
     const syncMotionControl = () => {
       const paused = heroVideo.paused;
       motionToggle.innerHTML = paused ? '<span aria-hidden="true">▶</span> Play motion' : '<span aria-hidden="true">Ⅱ</span> Pause motion';
-      motionToggle.setAttribute('aria-label', paused ? 'Play motion — cockpit video' : 'Pause motion — cockpit video');
+      motionToggle.setAttribute('aria-label', paused ? 'Play motion — hero montage' : 'Pause motion — hero montage');
       motionToggle.setAttribute('aria-pressed', String(paused));
     };
     const playVideo = () => heroVideo.play().catch(() => syncMotionControl());
