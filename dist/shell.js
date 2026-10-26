@@ -50,6 +50,35 @@
   document.querySelectorAll('#year').forEach(year => year.textContent = new Date().getFullYear());
   const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }), { threshold: .08 });
   document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+  const heroVideo = document.querySelector('.hero-video');
+  const motionToggle = document.querySelector('.motion-toggle');
+  if (heroVideo && motionToggle) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let userPaused = reducedMotion.matches;
+    const syncMotionControl = () => {
+      const paused = heroVideo.paused;
+      motionToggle.innerHTML = paused ? '<span aria-hidden="true">▶</span> Play motion' : '<span aria-hidden="true">Ⅱ</span> Pause motion';
+      motionToggle.setAttribute('aria-label', paused ? 'Play motion — cockpit video' : 'Pause motion — cockpit video');
+      motionToggle.setAttribute('aria-pressed', String(paused));
+    };
+    const playVideo = () => heroVideo.play().catch(() => syncMotionControl());
+    if (userPaused) heroVideo.pause(); else playVideo();
+    motionToggle.addEventListener('click', () => {
+      userPaused = !heroVideo.paused;
+      if (heroVideo.paused) playVideo(); else heroVideo.pause();
+      syncMotionControl();
+    });
+    heroVideo.addEventListener('play', syncMotionControl);
+    heroVideo.addEventListener('pause', syncMotionControl);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) heroVideo.pause(); else if (!userPaused && !reducedMotion.matches) playVideo();
+    });
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) heroVideo.pause(); else if (!userPaused && !reducedMotion.matches) playVideo();
+    }, { threshold: .12 });
+    heroObserver.observe(document.querySelector('.hero'));
+    syncMotionControl();
+  }
   document.querySelectorAll('[data-email-form], #ride-form').forEach(form => form.addEventListener('submit', event => {
     event.preventDefault(); const data = new FormData(form);
     const fields = [...data.entries()].filter(([, value]) => value).map(([key, value]) => `${key.replace(/[-_]/g,' ').replace(/^./, c => c.toUpperCase())}: ${value}`);
