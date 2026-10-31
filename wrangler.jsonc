@@ -2,5 +2,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "flsc-org",
   "compatibility_date": "2026-10-23",
-  "pages_build_output_dir": "dist"
+  "pages_build_output_dir": "dist",
+  "vars": {
+    "PAYPAL_ENV": "sandbox"
+  }
 }
