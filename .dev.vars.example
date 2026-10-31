@@ -1,0 +1,7 @@
+PUBLIC_ORIGIN=http://localhost:8788
+SESSION_SECRET=replace-with-at-least-32-random-characters
+GOOGLE_CLIENT_ID=replace-with-dedicated-flsc-google-client-id
+GOOGLE_CLIENT_SECRET=replace-with-dedicated-flsc-google-client-secret
+PAYPAL_ENV=sandbox
+PAYPAL_CLIENT_ID=replace-with-dedicated-flsc-sandbox-client-id
+PAYPAL_CLIENT_SECRET=replace-with-dedicated-flsc-sandbox-client-secret

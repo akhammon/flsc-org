@@ -1,3 +1,5 @@
-audit/
 .DS_Store
-
+.dev.vars
+.wrangler/
+audit/
+node_modules/

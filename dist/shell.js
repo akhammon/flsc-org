@@ -24,10 +24,19 @@
     ['Explore', [['Home','index.html'],['Glider rides','rides.html'],['Learn to soar','learn.html'],['Fleet','fleet.html'],['Gallery','gallery.html'],['Visit & contact','contact.html']]],
     ['Club', [['Membership','membership.html'],['People','people.html'],['Club story','about.html'],['FAQs','faqs.html']]],
     ['Flight deck', [['Operations dashboard','dashboard.html'],['Field operations','operations.html'],['Weather & planning','dashboard.html#weather'],['Resource library','resources.html']]],
-    ['Knowledge & control', [['Club wiki','https://github.com/akhammon/flsc-org/wiki'],['Member login','https://flsc.org/members/login.php'],['Member schedule','https://flsc.org/members/flying_sched.php']]]
+    ['Knowledge & control', [['Preview account','account.html'],['Club wiki','https://github.com/akhammon/flsc-org/wiki'],['Official member login','https://flsc.org/members/login.php'],['Member schedule','https://flsc.org/members/flying_sched.php']]]
   ];
   const header = document.querySelector('.site-header');
   if (header) {
+    const nav = header.querySelector('nav');
+    if (nav && !nav.querySelector('[data-preview-account]')) {
+      const previewAccount = document.createElement('a');
+      previewAccount.href = 'account.html';
+      previewAccount.textContent = 'Preview account';
+      previewAccount.dataset.previewAccount = 'true';
+      const officialLogin = nav.querySelector('.nav-login');
+      nav.insertBefore(previewAccount, officialLogin || null);
+    }
     let toggle = header.querySelector('.menu-toggle');
     if (!toggle) { toggle = document.createElement('button'); toggle.className = 'menu-toggle'; header.append(toggle); }
     toggle.textContent = 'Menu';
