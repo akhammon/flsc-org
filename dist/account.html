@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a111b">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="FLSC preview account and PayPal Sandbox checkout lab.">
+  <title>Preview Account | Finger Lakes Soaring Club</title>
+  <link rel="icon" href="assets/brand/flsc-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+  <link rel="stylesheet" href="account.css">
+</head>
+<body class="page-body account-body">
+  <a class="skip" href="#main">Skip to account</a>
+  <header class="site-header sub-header">
+    <a class="brand" href="index.html" aria-label="Finger Lakes Soaring Club home">
+      <span class="brand-mark" aria-hidden="true">⌁</span>
+      <span><b>Finger Lakes</b><small>Soaring Club</small></span>
+    </a>
+    <nav aria-label="Account navigation">
+      <a href="index.html">Public site</a>
+      <a href="dashboard.html">Flight deck</a>
+      <a class="nav-login" href="https://flsc.org/members/login.php">Official member system ↗</a>
+    </nav>
+  </header>
+
+  <main id="main" class="account-main">
+    <section class="account-hero">
+      <div>
+        <p class="eyebrow"><span></span> Independent preview environment</p>
+        <h1>Your FLSC<br><em>preview account.</em></h1>
+        <p>Test a modern sign-in and checkout experience without changing the official FLSC member system or moving real money.</p>
+      </div>
+      <div class="sandbox-seal" aria-label="PayPal Sandbox only">
+        <strong>Sandbox</strong>
+        <span>No live payments</span>
+      </div>
+    </section>
+
+    <section class="boundary-callout" aria-labelledby="boundary-title">
+      <div><span aria-hidden="true">!</span></div>
+      <div>
+        <h2 id="boundary-title">Preview identity is not club authority.</h2>
+        <p>Google sign-in here does not prove membership, pilot qualification, aircraft status, duty assignment, scheduling authority, or permission to operate. The official member system and responsible club officers remain controlling.</p>
+      </div>
+      <a href="https://flsc.org/members/login.php">Open official system ↗</a>
+    </section>
+
+    <section class="account-grid">
+      <article class="account-card identity-card">
+        <p class="kicker">Preview identity</p>
+        <div id="signed-out" class="identity-state" hidden>
+          <h2>One Google sign-in.</h2>
+          <p>Use a Google account for this preview. No password is stored by FLSC, and this does not create a second official club membership record.</p>
+          <a class="google-button" href="/api/auth/google/start?returnTo=/account.html">
+            <span aria-hidden="true">G</span> Continue with Google
+          </a>
+        </div>
+        <div id="signed-in" class="identity-state" hidden>
+          <div class="person-row">
+            <img id="account-picture" alt="" hidden>
+            <div><span>Signed in to the preview as</span><h2 id="account-name"></h2><p id="account-email"></p></div>
+          </div>
+          <button id="logout-button" class="text-button" type="button">Sign out of preview</button>
+        </div>
+        <p id="identity-status" class="account-status" role="status">Checking sign-in…</p>
+      </article>
+
+      <article class="account-card official-card">
+        <p class="kicker">Official club access</p>
+        <h2>Membership stays authoritative.</h2>
+        <p>Schedules, member records, assignments, acknowledgements, and operational controls continue in FLSC’s existing protected system.</p>
+        <a class="button ink" href="https://flsc.org/members/login.php">Member login ↗</a>
+      </article>
+    </section>
+
+    <section class="sandbox-lab" aria-labelledby="sandbox-title">
+      <div class="sandbox-heading">
+        <div><p class="kicker light">PayPal developer environment</p><h2 id="sandbox-title">Sandbox checkout lab.</h2></div>
+        <p>These buttons create test orders only. Sandbox money is fictional, no production PayPal app is accepted, and every amount is selected from a server-controlled catalog.</p>
+      </div>
+      <div id="sandbox-products" class="sandbox-products" aria-live="polite"></div>
+      <p id="sandbox-status" class="sandbox-status" role="status">Loading Sandbox readiness…</p>
+    </section>
+
+    <section class="next-boundary">
+      <div><p class="kicker">Designed for a safe handoff</p><h2>Separate now. Integrate only with approval.</h2></div>
+      <p>The preview can later map a verified Google identity to an approved FLSC member record. Until the club defines that process, the systems stay separate and no entitlement is inferred.</p>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <a class="brand footer-brand" href="index.html"><span class="brand-mark">⌁</span><span><b>Finger Lakes</b><small>Soaring Club</small></span></a>
+    <div><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="https://flsc.org/members/login.php">Official member system</a></div>
+    <p>Sandbox preview · no live payments</p>
+  </footer>
+  <script src="pages.js"></script>
+  <script type="module" src="account.js"></script>
+</body>
+</html>
