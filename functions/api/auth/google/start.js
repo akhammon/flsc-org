@@ -11,8 +11,9 @@ export async function onRequestGet({ request, env }) {
   const returnTo = safeReturnTo(requestUrl.searchParams.get('returnTo'));
   const state = randomToken();
   const verifier = randomToken(48);
+  const nonce = randomToken();
   const expires = Math.floor(Date.now() / 1000) + 10 * 60;
-  const oauthCookie = await signToken({ state, verifier, returnTo, exp: expires }, env.SESSION_SECRET);
+  const oauthCookie = await signToken({ state, verifier, nonce, returnTo, exp: expires }, env.SESSION_SECRET);
   const callbackUrl = `${publicOrigin(request, env)}/api/auth/google/callback`;
   const authorizationUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
   authorizationUrl.search = new URLSearchParams({
@@ -21,6 +22,7 @@ export async function onRequestGet({ request, env }) {
     response_type: 'code',
     scope: 'openid email profile',
     state,
+    nonce,
     code_challenge: await pkceChallenge(verifier),
     code_challenge_method: 'S256',
     prompt: 'select_account',

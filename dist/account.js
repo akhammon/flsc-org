@@ -58,6 +58,7 @@ function renderCatalog(configuration) {
           method: 'POST',
           body: JSON.stringify({ itemId }),
         });
+        sessionStorage.setItem(`flsc-paypal-${order.orderId}`, order.checkoutToken);
         window.location.assign(order.approvalUrl);
       } catch {
         button.disabled = false;
@@ -79,17 +80,24 @@ function renderCatalog(configuration) {
 async function captureApprovedOrder() {
   const url = new URL(window.location.href);
   if (url.searchParams.get('paypal') !== 'approved' || !url.searchParams.get('token')) return;
+  const orderId = url.searchParams.get('token');
+  const checkoutToken = sessionStorage.getItem(`flsc-paypal-${orderId}`);
+  if (!checkoutToken) {
+    status(sandboxStatus, 'Sandbox approval returned without a matching checkout session. Start a new test order.', 'error');
+    return;
+  }
   status(sandboxStatus, 'Capturing approved Sandbox order…');
   try {
     const result = await requestJson('/api/paypal/capture', {
       method: 'POST',
-      body: JSON.stringify({ orderId: url.searchParams.get('token') }),
+      body: JSON.stringify({ orderId, checkoutToken }),
     });
     const amount = result.amount ? `${result.amount.currency_code} ${result.amount.value}` : 'test amount';
     status(sandboxStatus, `Sandbox capture complete: ${amount}. No real money moved.`, 'success');
   } catch {
     status(sandboxStatus, 'Sandbox approval returned, but capture could not be completed.', 'error');
   } finally {
+    sessionStorage.removeItem(`flsc-paypal-${orderId}`);
     url.searchParams.delete('paypal');
     url.searchParams.delete('token');
     url.searchParams.delete('PayerID');

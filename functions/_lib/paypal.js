@@ -6,6 +6,31 @@ export const PAYPAL_CATALOG = Object.freeze({
   'club-support-25': { label: 'Club support test', value: '25.00', currency: 'USD' },
 });
 
+export function sandboxApprovalUrl(order) {
+  const value = order?.links?.find((link) => link?.rel === 'approve' || link?.rel === 'payer-action')?.href;
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:' || url.hostname !== 'www.sandbox.paypal.com' || url.username || url.password) {
+      return null;
+    }
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+export function paypalOrderMatches(order, expected, requiredStatus) {
+  const units = order?.purchase_units;
+  const unit = Array.isArray(units) && units.length === 1 ? units[0] : null;
+  if (!unit || order.id !== expected.orderId || (requiredStatus && order.status !== requiredStatus)) return false;
+  return (
+    unit.custom_id === expected.intentId &&
+    unit.amount?.currency_code === expected.currency &&
+    unit.amount?.value === expected.value
+  );
+}
+
 export function paypalConfiguration(env) {
   if ((env.PAYPAL_ENV || '').toLowerCase() !== 'sandbox') {
     throw new Error('PayPal is disabled unless PAYPAL_ENV is exactly sandbox.');

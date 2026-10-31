@@ -1,7 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { cookie, parseCookies } from '../functions/_lib/cookies.js';
-import { PAYPAL_CATALOG, paypalConfiguration } from '../functions/_lib/paypal.js';
+import {
+  PAYPAL_CATALOG,
+  paypalConfiguration,
+  paypalOrderMatches,
+  sandboxApprovalUrl,
+} from '../functions/_lib/paypal.js';
 import { safeReturnTo, signToken, verifyToken } from '../functions/_lib/tokens.js';
 
 const secret = 'test-secret-that-is-definitely-longer-than-thirty-two-characters';
@@ -47,4 +52,32 @@ test('Sandbox products use a fixed USD server catalog', () => {
   assert.equal(PAYPAL_CATALOG['ride-classic'].value, '110.00');
   assert.equal(PAYPAL_CATALOG['ride-classic'].currency, 'USD');
   assert.equal(Object.keys(PAYPAL_CATALOG).length, 5);
+});
+
+test('only PayPal Sandbox approval URLs are accepted', () => {
+  assert.equal(
+    sandboxApprovalUrl({ links: [{ rel: 'approve', href: 'https://www.sandbox.paypal.com/checkoutnow?token=TEST' }] }),
+    'https://www.sandbox.paypal.com/checkoutnow?token=TEST',
+  );
+  assert.equal(sandboxApprovalUrl({ links: [{ rel: 'approve', href: 'https://www.paypal.com/checkoutnow' }] }), null);
+  assert.equal(sandboxApprovalUrl({ links: [{ rel: 'approve', href: 'https://evil.example/checkout' }] }), null);
+});
+
+test('PayPal order verification binds the expected item, amount and status', () => {
+  const expected = { orderId: 'ORDER-123', intentId: 'flsc:intent:ride-classic', currency: 'USD', value: '110.00' };
+  const order = {
+    id: 'ORDER-123',
+    status: 'APPROVED',
+    purchase_units: [{ custom_id: expected.intentId, amount: { currency_code: 'USD', value: '110.00' } }],
+  };
+  assert.equal(paypalOrderMatches(order, expected, 'APPROVED'), true);
+  assert.equal(paypalOrderMatches({ ...order, status: 'CREATED' }, expected, 'APPROVED'), false);
+  assert.equal(
+    paypalOrderMatches({ ...order, purchase_units: [{ ...order.purchase_units[0], custom_id: 'other-user' }] }, expected, 'APPROVED'),
+    false,
+  );
+  assert.equal(
+    paypalOrderMatches({ ...order, purchase_units: [{ ...order.purchase_units[0], amount: { currency_code: 'USD', value: '1.00' } }] }, expected, 'APPROVED'),
+    false,
+  );
 });

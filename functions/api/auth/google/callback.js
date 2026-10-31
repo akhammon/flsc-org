@@ -46,6 +46,7 @@ export async function onRequestGet({ request, env }) {
     if (
       identity.aud !== env.GOOGLE_CLIENT_ID ||
       !validIssuer ||
+      identity.nonce !== oauthState.nonce ||
       identity.email_verified !== 'true' ||
       Number(identity.exp) * 1000 <= Date.now()
     ) {
